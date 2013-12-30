@@ -27,7 +27,7 @@ function init()
     hintbox[char].width = hintsize
     hintbox[char].height = hintsize
     letterbox[char] = wibox.widget.textbox()
-    letterbox[char]:set_markup("<span color=\"" .. beautiful.fg_normal .. "\"" .. ">" .. char.upper(char) .. "</span>")
+    letterbox[char]:set_markup("<span color=\"" .. beautiful.fg_normal.."\"" .. ">" .. char.upper(char) .. "</span>")
     letterbox[char]:set_font("dejavu sans mono 40")
     letterbox[char]:set_align("center")
     hintbox[char]:set_widget(letterbox[char])
