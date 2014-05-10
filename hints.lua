@@ -51,6 +51,7 @@ function focus()
     keygrabber.stop()
     if hintindex[key] then 
       client.focus = hintindex[key]
+      awful.screen.focus(hintindex[key].screen)
       hintindex[key]:raise()
     end 
     for i,j in pairs(hintindex) do
