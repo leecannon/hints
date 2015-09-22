@@ -6,7 +6,8 @@ local pairs     = pairs
 local beautiful = require("beautiful")
 local wibox     = require("wibox")
 
-module("hints")
+
+local hints = {} 
 
 charorder = "jkluiopyhnmfdsatgvcewqzx1234567890"
 hintbox = {} -- Table of letter wiboxes with characters as the keys
@@ -16,7 +17,7 @@ function debuginfo( message )
 end
 
 -- Create the wiboxes, but don't show them
-function init()
+function hints.init()
   hintsize = 60
   local fontcolor = beautiful.fg_normal
   local letterbox = {}
@@ -34,17 +35,19 @@ function init()
   end
 end
 
-function focus()
+function hints.focus()
   local hintindex = {} -- Table of visible clients with the hint letter as the keys
   local clientlist = awful.client.visible()
   for i,thisclient in pairs(clientlist) do -- Move wiboxes to center of visible windows and populate hintindex
     local char = charorder:sub(i,i)
-    hintindex[char] = thisclient
-    local geom = thisclient.geometry(thisclient)
-    hintbox[char].visible = true
-    hintbox[char].x = geom.x + geom.width/2 - hintsize/2
-    hintbox[char].y = geom.y + geom.height/2 - hintsize/2
-    hintbox[char].screen = thisclient.screen
+    if char and char ~= '' then
+        hintindex[char] = thisclient
+        local geom = thisclient:geometry()
+            hintbox[char].visible = true
+            hintbox[char].x = math.floor(geom['x'] + geom['width']/2 - hintsize/2)
+            hintbox[char].y = math.floor(geom.y + geom.height/2 - hintsize/2)
+            hintbox[char].screen = thisclient.screen
+    end
   end
   keygrabber.run( function(mod,key,event)
     if event == "release" then return true end
@@ -58,4 +61,31 @@ function focus()
       hintbox[i].visible = false
     end
   end)
+
 end
+
+--function debuginfo( message )
+    --if type(message) == "table" then
+        --for k,v in pairs(message) do 
+            --naughty.notify({ text = "key: "..k.." value: "..tostring(message), timeout = 10 })
+        --end
+    --else 
+        --nid = naughty.notify({ text = message, timeout = 10 })
+    --end
+--end
+
+local function debuginfo( message )
+
+    mm = message
+
+    if not message then
+        mm = "false"
+    end
+
+    nid = naughty.notify({ text = tostring(mm), timeout = 10 })
+end
+
+setmetatable(hints, { __call = function(_, ...) return hints.focus(...) end })
+
+return hints
+
