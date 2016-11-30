@@ -7,7 +7,7 @@ local beautiful = require("beautiful")
 local wibox     = require("wibox")
 
 
-local hints = {} 
+local hints = {}
 
 charorder = "jkluiopyhnmfdsatgvcewqzx1234567890"
 hintbox = {} -- Table of letter wiboxes with characters as the keys
@@ -52,11 +52,11 @@ function hints.focus()
   keygrabber.run( function(mod,key,event)
     if event == "release" then return true end
     keygrabber.stop()
-    if hintindex[key] then 
+    if hintindex[key] then
       client.focus = hintindex[key]
       awful.screen.focus(hintindex[key].screen)
       hintindex[key]:raise()
-    end 
+    end
     for i,j in pairs(hintindex) do
       hintbox[i].visible = false
     end
@@ -66,10 +66,10 @@ end
 
 --function debuginfo( message )
     --if type(message) == "table" then
-        --for k,v in pairs(message) do 
+        --for k,v in pairs(message) do
             --naughty.notify({ text = "key: "..k.." value: "..tostring(message), timeout = 10 })
         --end
-    --else 
+    --else
         --nid = naughty.notify({ text = message, timeout = 10 })
     --end
 --end
@@ -88,4 +88,3 @@ end
 setmetatable(hints, { __call = function(_, ...) return hints.focus(...) end })
 
 return hints
-
