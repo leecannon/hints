@@ -12,6 +12,8 @@ local hints = {}
 charorder = "jkluiopyhnmfdsatgvcewqzx1234567890"
 hintbox = {} -- Table of letter wiboxes with characters as the keys
 
+fontcolor_fallback = "red"
+
 function debuginfo( message )
   nid = naughty.notify({ text = message, timeout = 10 })
 end
@@ -19,7 +21,7 @@ end
 -- Create the wiboxes, but don't show them
 function hints.init()
   hintsize = 60
-  local fontcolor = beautiful.fg_normal
+  local fontcolor = beautiful.fg_normal or fontcolor_fallback
   local letterbox = {}
   for i = 1, #charorder do
     local char = charorder:sub(i,i)
@@ -28,7 +30,7 @@ function hints.init()
     hintbox[char].width = hintsize
     hintbox[char].height = hintsize
     letterbox[char] = wibox.widget.textbox()
-    letterbox[char]:set_markup("<span color=\"" .. beautiful.fg_normal.."\"" .. ">" .. char.upper(char) .. "</span>")
+    letterbox[char]:set_markup("<span color=\"" .. fontcolor .. "\"" .. ">" .. char.upper(char) .. "</span>")
     letterbox[char]:set_font("dejavu sans mono 40")
     letterbox[char]:set_align("center")
     hintbox[char]:set_widget(letterbox[char])
