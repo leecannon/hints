@@ -9,7 +9,7 @@ local wibox     = require("wibox")
 
 local hints = {}
 
-charorder = "jkluiopyhnmfdsatgvcewqzx1234567890"
+charorder = "asdfghjkl"
 hintbox = {} -- Table of letter wiboxes with characters as the keys
 
 fontcolor_fallback = "red"
